@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prerona Saha — Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #15233A;
+      --slate: #3C4A63;
+      --paper: #F6F4EF;
+      --grid: #D8DEE6;
+      --teal: #2BBBAD;
+      --amber: #F2A341;
+      --ink: #1B2436;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    .display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* background grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246, 244, 239, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--grid);
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .logo span {
+      color: var(--teal);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    nav a:hover {
+      color: var(--teal);
+    }
+
+    /* HERO */
+    header.hero {
+      padding: 96px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 2px;
+      background: var(--teal);
+      display: inline-block;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .accent {
+      color: var(--teal);
+    }
+
+    .hero p.lede {
+      font-size: 1.08rem;
+      color: var(--slate);
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      padding: 14px 26px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform .15s ease, box-shadow .15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--paper);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 var(--teal);
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--navy);
+      color: var(--navy);
+    }
+
+    .btn-outline:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 var(--grid);
+    }
+
+    /* hero chart card - signature element */
+    .chart-card {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 28px;
+      color: var(--paper);
+      position: relative;
+      box-shadow: 12px 12px 0 rgba(43, 187, 173, 0.18);
+    }
+
+    .chart-card .ccard-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #9FB0C9;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .chart-card .big-stat {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+    }
+
+    .chart-card .big-stat-label {
+      font-size: 0.85rem;
+      color: #C7D2E3;
+      margin-top: 6px;
+      margin-bottom: 24px;
+    }
+
+    .bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 90px;
+    }
+
+    .bars div {
+      flex: 1;
+      background: linear-gradient(180deg, var(--teal), #1f8a80);
+      border-radius: 3px 3px 0 0;
+      animation: rise 1.1s ease-out backwards;
+    }
+
+    .bars div:nth-child(1) {
+      height: 40%;
+      animation-delay: .05s;
+    }
+
+    .bars div:nth-child(2) {
+      height: 65%;
+      animation-delay: .1s;
+    }
+
+    .bars div:nth-child(3) {
+      height: 48%;
+      animation-delay: .15s;
+    }
+
+    .bars div:nth-child(4) {
+      height: 88%;
+      animation-delay: .2s;
+      background: linear-gradient(180deg, var(--amber), #b9762a);
+    }
+
+    .bars div:nth-child(5) {
+      height: 72%;
+      animation-delay: .25s;
+    }
+
+    .bars div:nth-child(6) {
+      height: 95%;
+      animation-delay: .3s;
+    }
+
+    .bars div:nth-child(7) {
+      height: 58%;
+      animation-delay: .35s;
+    }
+
+    @keyframes rise {
+      from {
+        transform: scaleY(0);
+        transform-origin: bottom;
+      }
+
+      to {
+        transform: scaleY(1);
+      }
+    }
+
+    .ccard-foot {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: #7E91AE;
+    }
+
+    /* SECTION GENERAL */
+    section {
+      padding: 88px 0;
+    }
+
+    .section-head {
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--teal);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-head h2 {
+      font-size: 2rem;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .about-grid p {
+      color: var(--slate);
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      border: 1px solid var(--grid);
+      background: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      color: var(--navy);
+    }
+
+    /* SKILLS bars */
+    .skill-row {
+      margin-bottom: 18px;
+    }
+
+    .skill-row .label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .skill-track {
+      height: 8px;
+      background: var(--grid);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: 4px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1s ease;
+    }
+
+    .skill-fill.visible {
+      transform: scaleX(1);
+    }
+
+    /* EXPERIENCE */
+    .exp-card {
+      background: #fff;
+      border: 1px solid var(--grid);
+      border-left: 4px solid var(--teal);
+      border-radius: 6px;
+      padding: 32px;
+    }
+
+    .exp-head {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .exp-head h3 {
+      font-size: 1.25rem;
+      color: var(--navy);
+    }
+
+    .exp-head .date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--teal);
+      background: rgba(43, 187, 173, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+
+    .exp-org {
+      color: var(--slate);
+      font-style: italic;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .exp-card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .exp-card li {
+      padding-left: 22px;
+      position: relative;
+      color: var(--slate);
+      font-size: 0.95rem;
+    }
+
+    .exp-card li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    /* EDUCATION */
+    .edu-card {
+      display: flex;
+      gap: 24px;
+      background: #fff;
+      border: 1px solid var(--grid);
+      border-radius: 6px;
+      padding: 28px;
+      align-items: center;
+    }
+
+    .edu-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--navy);
+      background: var(--grid);
+      border-radius: 6px;
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .edu-card h3 {
+      color: var(--navy);
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .edu-card p {
+      color: var(--slate);
+      font-size: 0.92rem;
+    }
+
+    /* CONTACT */
+    .contact-section {
+      background: var(--navy);
+      color: var(--paper);
+      border-radius: 10px;
+      padding: 64px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-section h2 {
+      color: #fff;
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }
+
+    .contact-section p {
+      color: #AEC0DA;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--paper);
+      border: 1.5px solid #3A4A63;
+      padding: 12px 22px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: .2s;
+    }
+
+    .contact-links a:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--slate);
+    }
+
+    @media (max-width:760px) {
+
+      .hero-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav ul {
+        gap: 18px;
+      }
+
+      nav ul li:nth-child(1) {
+        display: none;
+      }
+
+      section {
+        padding: 64px 0;
+      }
+
+      .contact-section {
+        padding: 48px 24px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* keyboard focus */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+    }
+
+    /* resume card */
+    .resume-card {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 36px 28px;
+      color: var(--paper);
+      position: relative;
+      box-shadow: 12px 12px 0 rgba(43, 187, 173, 0.18);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .resume-card .rcard-head {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #9FB0C9;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .resume-icon {
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+      animation: float 3s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .resume-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .resume-subtitle {
+      font-size: 0.9rem;
+      color: #C7D2E3;
+      margin-bottom: 24px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-download {
+      background: var(--teal);
+      color: var(--navy);
+      border: none;
+      width: 100%;
+      justify-content: center;
+      font-weight: 600;
+      box-shadow: 0 4px 0 #1f8a80;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 #15625b;
+      background: #32d1c2;
+    }
+
+    /* LANGUAGES */
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .lang-card {
+      background: #fff;
+      border: 1px solid var(--grid);
+      border-radius: 6px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .lang-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      border-color: var(--teal);
+    }
+
+    .lang-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .lang-proficiency {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--teal);
+      background: rgba(43, 187, 173, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+
+    .lang-desc {
+      font-size: 0.9rem;
+      color: var(--slate);
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="wrap">
+      <div class="logo">PRERONA<span>.</span>SAHA</div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#languages">Languages</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Data Analyst · Kolkata</div>
+        <h1>Turning raw data into <span class="accent">clear decisions</span>.</h1>
+        <p class="lede">I'm Prerona Saha — a detail-oriented data analyst who builds dashboards, tracks KPIs, and tells
+          stories with data that non-technical stakeholders actually understand.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">Get in touch →</a>
+          <a class="btn btn-outline" href="#experience">View experience</a>
+        </div>
+      </div>
+      <div class="resume-card">
+        <div class="rcard-head"><span>Curriculum Vitae</span><span>2026</span></div>
+        <div class="resume-icon">📄</div>
+        <h3 class="resume-title">Prerona Saha</h3>
+        <p class="resume-subtitle">Data Analyst Resume</p>
+        <a class="btn btn-download" href="PRERONA_SAHA_Resume_1.pdf" download="PRERONA_SAHA">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download Resume
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section id="about">
+      <div class="section-head">
+        <span class="section-num">01 / About</span>
+        <h2>Detail-oriented, decision-focused.</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>I specialize in data visualization, dashboard development, and statistical analysis — turning messy
+            datasets into KPI tracking and storytelling tools that drive real decisions.</p>
+          <p>Proficient across Excel, Tableau, and Power BI, I focus on building visuals that simplify complexity and
+            make findings accessible to non-technical stakeholders. I'm eager to keep learning and apply analytical
+            thinking wherever it creates impact.</p>
+        </div>
+        <div>
+          <p style="color:var(--navy); font-weight:600; margin-bottom:8px;">Core focus areas</p>
+          <div class="tags">
+            <span class="tag">Data Cleaning</span>
+            <span class="tag">Data Visualization</span>
+            <span class="tag">Dashboard Development</span>
+            <span class="tag">KPI Tracking</span>
+            <span class="tag">Data Storytelling</span>
+            <span class="tag">Statistical Analysis</span>
+            <span class="tag">Trend Analysis</span>
+            <span class="tag">Continuous Learning</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-head">
+        <span class="section-num">02 / Skills</span>
+        <h2>Tools I work with.</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <div class="skill-row">
+            <div class="label"><span>Microsoft Excel</span><span class="mono">90%</span></div>
+            <div class="skill-track">
+              <div class="skill-fill" data-val="90"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="label"><span>Tableau</span><span class="mono">85%</span></div>
+            <div class="skill-track">
+              <div class="skill-fill" data-val="85"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="label"><span>Power BI</span><span class="mono">85%</span></div>
+            <div class="skill-track">
+              <div class="skill-fill" data-val="85"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <!-- -<div class="skill-row">
+            <div class="label"><span>Python</span><span class="mono">70%</span></div>
+            <div class="skill-track">
+              <div class="skill-fill" data-val="70"></div>
+            </div>
+          </div> - -->
+          <div class="skill-row">
+            <div class="label"><span>Statistical Analysis</span><span class="mono">80%</span></div>
+            <div class="skill-track">
+              <div class="skill-fill" data-val="80"></div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="label"><span>Dashboard Development</span><span class="mono">88%</span></div>
+            <div class="skill-track">
+              <div class="skill-fill" data-val="88"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="section-head">
+        <span class="section-num">03 / Experience</span>
+        <h2>Where I've worked.</h2>
+      </div>
+      <div class="exp-card">
+        <div class="exp-head">
+          <h3>Data Analyst Intern</h3>
+          <span class="date">06/2025 – 09/2025</span>
+        </div>
+        <div class="exp-org">Unified Mentor Pvt. Ltd, Gurugram</div>
+        <ul>
+          <li>Analyzed data trends to support decision-making processes.</li>
+          <li>Built dashboards in Tableau and Power BI to track business metrics and communicate findings to
+            non-technical stakeholders.</li>
+          <li>Used Excel to create visualizations that improved data comprehension across teams.</li>
+          <li>Extracted data to build KPI-tracking metrics and dashboards.</li>
+          <li>Prepared detailed reports and presentations summarizing analytical findings.</li>
+          <li>Performed statistical analysis to identify trends and patterns.</li>
+          <li>Collected, cleaned, and preprocessed data to ensure dataset accuracy and reliability.</li>
+          <li>Stayed current with new data analysis tools and techniques through continuous learning.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="section-head">
+        <span class="section-num">04 / Education</span>
+        <h2>Academic background.</h2>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">BA</div>
+        <div>
+          <h3>Bachelor of Arts — Political Science</h3>
+          <p>Lady Brabourne College, Kolkata · 08/2024</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="languages">
+      <div class="section-head">
+        <span class="section-num">05 / Languages</span>
+        <h2>Languages I speak.</h2>
+      </div>
+      <div class="lang-grid">
+        <div class="lang-card">
+          <div class="lang-name">English</div>
+          <span class="lang-proficiency">Professional Working Proficiency</span>
+          <p class="lang-desc">Comfortable with professional communication, writing reports, and presenting insights.
+          </p>
+        </div>
+        <div class="lang-card">
+          <div class="lang-name">Bengali</div>
+          <span class="lang-proficiency">Native or Bilingual Proficiency</span>
+          <p class="lang-desc">Mother tongue. Complete fluency in writing, reading, and speaking.</p>
+        </div>
+        <div class="lang-card">
+          <div class="lang-name">Hindi</div>
+          <span class="lang-proficiency">Professional Working Proficiency</span>
+          <p class="lang-desc">Fluent in speaking and understanding, suitable for professional and daily interactions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-section">
+        <h2>Let's work together.</h2>
+        <p>Open to data analyst roles and opportunities. Reach out by email or connect with me below.</p>
+        <div class="contact-links">
+          <a href="mailto:prerona.saha2003@gmail.com">prerona.saha2003@gmail.com</a>
+          <!-- <a href="tel:8240097487">+91 82400 97487</a> -->
+          <a href="https://www.linkedin.com/in/prerona-saha-99043234b" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/PreronaSaha18" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>© 2026 Prerona Saha · Kolkata, India</footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.skill-fill').forEach(el => {
+      el.style.transform = 'scaleX(0)';
+      el.style.setProperty('--w', el.dataset.val + '%');
+      obs.observe(el);
+    });
+    // apply width via scaleX based on data-val
+    const style = document.createElement('style');
+    document.querySelectorAll('.skill-fill').forEach(el => {
+      el.addEventListener('transitionend', () => { });
+    });
+    document.querySelectorAll('.skill-fill').forEach(el => {
+      const v = el.dataset.val / 100;
+      const sheet = document.styleSheets[0];
+    });
+    document.querySelectorAll('.skill-fill.visible, .skill-fill').forEach(el => { });
+  </script>
+  <script>
+    // simpler: set scaleX via CSS variable
+    document.querySelectorAll('.skill-fill').forEach(el => {
+      el.style.setProperty('transform', 'scaleX(0)');
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const v = e.target.dataset.val / 100;
+          e.target.style.transform = 'scaleX(' + v + ')';
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.skill-fill').forEach(el => io.observe(el));
+  </script>
+</body>
+
+</html>
